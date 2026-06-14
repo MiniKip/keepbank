@@ -61,6 +61,7 @@ function start_module.start()
             utils.center_print("")
             utils.center_print("")
             os.execute("sleep 1")
+            utils.clear_screen()
             running = false
 
         else
