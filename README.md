@@ -11,7 +11,8 @@
 <line x1="54" y1="75" x2="58" y2="75" stroke="#38bdf8" stroke-width="2" />
 <line x1="92" y1="75" x2="96" y2="75" stroke="#38bdf8" stroke-width="2" />
 
-<img width="490" height="174" alt="image" src="https://github.com/user-attachments/assets/1fea2fe2-39c8-410d-8950-cb4a3366ffcb" />
+<img width="700" height="174" alt="image" src="https://github.com/user-attachments/assets/3d8fffdd-064a-4d97-aa7a-ac8730fb34bf" />
+
 
 
 KeepBank
