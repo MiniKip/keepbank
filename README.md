@@ -23,5 +23,14 @@ KeepBank is an open-source, highly responsive, and lightweight terminal-based ba
 
 Whether you want to learn Lua, simulate transactional logic, or manage secure CLI-based Ledgers, KeepBank provides a robust foundation.
 
+
+
+> How to use
+
+To run the project head over to the main directory and use "lua main.lua"
+
+> Requirements
+**Lua v5.x.x**
+
 [!WARNING]
 Active Development Warning: KeepBank is currently in an early pre-release phase (underdev). API endpoints, storage schemas, and configuration formats may change significantly between commits.
