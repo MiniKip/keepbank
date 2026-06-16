@@ -263,7 +263,7 @@ function start_module.selectAccount()
         end
         --Ends here :D
 
-        utils.center_print("#               7. Exit                 #")
+        utils.center_print("#               9. Exit                 #")
         utils.center_print("#########################################") 
 
 
