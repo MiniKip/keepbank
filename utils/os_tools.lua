@@ -26,6 +26,8 @@ function os_tools.center_print(text)
     print(string.rep(" ", padding) .. text)
 end
 
+
+-- This function is generated with ai, but not being used for now.
 function os_tools.print_block(lines)
     local terminal_width = 80
 

@@ -1,11 +1,14 @@
 local utils = require("utils.os_tools")
+local sqlite3 = require("lsqlite3")
+
+
+-- OPEN DB
+local db = sqlite3.open("database/bank.db")
 
 start_module = {}
 
 function start_module.start()
-    local running = true
-    
-    while running do
+    while true do
         utils.clear_screen()
 
         for i = 1, 5 do
@@ -21,10 +24,10 @@ function start_module.start()
         utils.center_print("#                                       #")
         utils.center_print("#     Choose an option to continue..    #")
         utils.center_print("#           1. Create account           #")
-        utils.center_print("#           2. Exit                     #")
+        utils.center_print("#           2. Select account           #")
+        utils.center_print("#           3. Exit                     #")
         utils.center_print("#                                       #")
         utils.center_print("#########################################")
-        utils.center_print("")
 
         io.write("Choose option: ")
         local choice = io.read()
@@ -32,40 +35,57 @@ function start_module.start()
         utils.clear_screen()
 
         if choice == "1" then
-            utils.center_print("Account Being created")
+            print("")
+            io.write("Enter a username for your new account: ")
+            local username = io.read()
 
-            for i = 1, 3 do
-                io.write(".")
-                io.flush()
-                os.execute("sleep 1")
+            if username == "" then
+                print("you need to enter a username fahh!")
+                io.read()
+            else
+                utils.clear_screen()
+                utils.center_print("Account being created for " .. username)
+
+                for i = 1, 3 do
+                    io.write(".")
+                    io.flush()
+                    os.execute("sleep 1")
+                end
+
+                db:exec(string.format("INSERT INTO users (username, balance, bank_balance) VALUES ('%s', 0, 0)", username))
+                local assigned_id = db:last_insert_rowid()
+                db:close()
+
+                utils.clear_screen()
+                utils.center_print("")
+                utils.center_print("")
+                utils.center_print("Done! Account created successfully.")
+                utils.center_print("")
+                utils.center_print("")
+                os.execute("sleep 3")
+                utils.clear_screen()
+
+                start_module.main()
+                break
             end
 
-            utils.clear_screen()
-            print("")
-            print("")
-            print("Done!")
-            print("")
-            print("")
-            os.execute("sleep 1")
-            utils.clear_screen()
-
-            running = false
-            start_module.main()
-
         elseif choice == "2" then
-            utils.center_print("")
-            utils.center_print("")
-            utils.center_print("")
-            utils.center_print("Have a good day! :>")
-            utils.center_print("")
-            utils.center_print("")
-            utils.center_print("")
+            utils.clear_screen()
+            start_module.selectAccount()
+            break
+
+        elseif choice == "3" then
+            print("")
+            print("")
+            print("Have a good day! :>")
+            print("")
+            print("")
             os.execute("sleep 1")
             utils.clear_screen()
-            running = false
+            break
 
         else
-            utils.center_print("Choose a correct option.")
+            print("pick a valid option.")
             io.read()
         end
     end
@@ -125,6 +145,8 @@ function start_module.main()
     end
 end
 
+
+-- NEXT DAY
 function start_module.bankOption()
     local running = true
     
@@ -139,7 +161,7 @@ function start_module.bankOption()
         utils.center_print("#              KEEP BANK                #")
         utils.center_print("#                                       #")
         utils.center_print("#   Continue to your personal space!    #")
-        utils.center_print("#             Keep using!               #")
+        utils.center_print("#      Keep using & make us rich!       #")
         utils.center_print("#                                       #")
         utils.center_print("#                                       #")
         utils.center_print("#     Choose an option to continue..    #")
@@ -147,7 +169,7 @@ function start_module.bankOption()
         utils.center_print("#           2. Mini Statment     ||     #")
         utils.center_print("#           3. Update Operator   ||     #")
         utils.center_print("#           4. Update Profile Status || #")
-        utils.center_print("#           5. Helpline          ||     #")
+        utils.center_print("#           5. Helpline                 #")
         utils.center_print("#           6. Change Account Type  ||  #")
         utils.center_print("#           7. Main Menu                #")
         utils.center_print("#                                       #")
@@ -180,7 +202,9 @@ function start_module.bankOption()
             io.read()
 
         elseif choice == "5" then
-            utils.center_print("SOON")
+            utils.center_print("  Contact the helpline at ")
+            utils.center_print("")
+            utils.center_print("minikip@proton.me :D")
 
             io.read()
 
@@ -196,6 +220,82 @@ function start_module.bankOption()
 
         else
             utils.center_print("Choose a correct option.")
+            io.read()
+        end
+    end
+end
+
+function start_module.selectAccount()
+    while true do
+        utils.clear_screen()
+
+        -- variables
+        local db = sqlite3.open("database/bank.db")
+        local accounts = {}
+        
+        for row in db:nrows("SELECT id, username FROM users ORDER BY id ASC LIMIT 6") do
+            table.insert(accounts, row)
+        end
+        db:close()
+
+        utils.center_print("#########################################")
+        utils.center_print("#              KEEP BANK                #")
+        utils.center_print("#                                       #")
+        utils.center_print("#   Continue to your personal space!    #")
+        utils.center_print("#             Keep using!               #")
+        utils.center_print("#                                       #")
+        utils.center_print("#     Choose an option to continue..    #")
+
+
+        -- This part is ai written sorry, the text allignment was too complex. My micro brain can't handle
+        for i = 1, 8 do
+            local middle
+            if accounts[i] then
+                middle = i .. ". " .. accounts[i].username .. " (ID: " .. accounts[i].id .. ")"
+            else 
+                middle = i .. ". None"
+            end
+             
+            local total_inner = 36
+            local spaces_needed = total_inner - string.len(middle)
+            local line = "#   " .. middle .. string.rep(" ", spaces_needed) .. "#"
+            utils.center_print(line)
+        end
+        --Ends here :D
+
+        utils.center_print("#               7. Exit                 #")
+        utils.center_print("#########################################") 
+
+
+
+        io.write("Choose option: ")
+
+        -- BRO DONT EVEN TOUCH, (saying to my self)
+        local choice = io.read()
+        local num = tonumber(choice)
+
+        if num == 9 then
+            utils.clear_screen()
+            print("Thanks for using KEEP BANK!")
+            os.execute("sleep 1")
+            utils.clear_screen()
+            break
+        elseif num and num >= 1 and num <= 8 then
+            if accounts[num] then
+                utils.clear_screen()
+
+                start_module.main(accounts[num].id)
+                break
+            else
+                utils.clear_screen()
+
+                print("No account in this slot.")
+                io.read()
+            end
+        else
+            utils.clear_screen()
+
+            print("Pick a valid option.")
             io.read()
         end
     end

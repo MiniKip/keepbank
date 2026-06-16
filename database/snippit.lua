@@ -4,8 +4,17 @@ local sqlite3 = require("lsqlite3")
 local db = sqlite3.open("database/bank.db")
 
 
--- creating tables.
-db:exec("CREATE TABLE IF NOT EXISTS users (id INTEGER, balance INTEGER)")
-db:exec("CREATE TABLE IF NOT EXISTS history (id INTEGER, amount INTEGER, date TEXT)")
+-- CREATE THE FEAKING TABLES!!
+db:exec([[
+    CREATE TABLE users (
+        id INTEGER PRIMARY KEY NOT NULL,             
+        username TEXT NOT NULL,                     
+        balance INTEGER DEFAULT 0,           
+        bank_balance INTEGER DEFAULT 0,             
+        last_daily TEXT,                            
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP    
+    )
+]])
 
 db:close()
+print("ok")
