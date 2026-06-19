@@ -1,6 +1,7 @@
 local utils = require("utils.os_tools")
 local sqlite3 = require("lsqlite3")
 local bank_module = require("modules.bank_module")
+local panel_module = require("modules.admin_modules.panel_module")
 
 
 -- OPEN DB
@@ -136,6 +137,14 @@ function start_module.main()
             io.read()
         elseif choice == "3" then
 
+            utils.center_print("Redirecting to Vault.. ")
+
+                for i = 1, 3 do
+                    io.write(".")
+                    io.flush()
+                    os.execute("sleep 1")
+                end
+
             utils.clear_screen()
             running = false
 
@@ -179,7 +188,7 @@ function start_module.bankOption()
         utils.center_print("#     Choose an option to continue..    #")
         utils.center_print("#           1. Balance Enquiry          #")
         utils.center_print("#           2. Mini Statment     ||     #")
-        utils.center_print("#           3. Update Operator   ||     #")
+        utils.center_print("#           3. Panel Operator           #")
         utils.center_print("#           4. Update Profile Status || #")
         utils.center_print("#           5. Helpline                 #")
         utils.center_print("#           6. Change Account Type  ||  #")
@@ -206,9 +215,11 @@ function start_module.bankOption()
             io.read()
 
         elseif choice == "3" then
-            utils.center_print("SOON")
-
-            io.read()
+            utils.center_print("Getting the information from database...")
+            os.execute("sleep 1")
+            running = false
+            utils.clear_screen()
+            panel_module.main()
 
         elseif choice == "4" then
             utils.center_print("SOON")
@@ -216,11 +227,11 @@ function start_module.bankOption()
             io.read()
 
         elseif choice == "5" then
-            utils.center_print("  Contact the helpline at ")
-            utils.center_print("")
-            utils.center_print("minikip@proton.me :D")
-
-            io.read()
+            utils.center_print("Getting the information from database...")
+            os.execute("sleep 1")
+            running = false
+            utils.clear_screen()
+            bank_module.optionFive()
 
         elseif choice == "6" then
             utils.center_print("SOON")
