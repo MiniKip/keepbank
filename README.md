@@ -27,10 +27,13 @@ Whether you want to learn Lua, simulate transactional logic, or manage secure CL
 
 > How to use
 
-To run the project head over to the main directory and use "lua main.lua"
+- Copy the github repository
+- Enter the main directory of the project
+- Then run "lua main.lua"
 
 > Requirements
 **Lua v5.x.x**
 
 [!WARNING]
+
 Active Development Warning: KeepBank is currently in an early pre-release phase (underdev). API endpoints, storage schemas, and configuration formats may change significantly between commits.
