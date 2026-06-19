@@ -1,5 +1,6 @@
 local utils = require("utils.os_tools")
 local sqlite3 = require("lsqlite3")
+local bank_module = require("modules.bank_module")
 
 
 -- OPEN DB
@@ -51,6 +52,11 @@ function start_module.start()
                     io.flush()
                     os.execute("sleep 1")
                 end
+
+                os.remove("temp_files/data.tmp")
+                local file = io.open("temp_files/data.tmp", "w")
+                file:write(username)
+                file:close()
 
                 db:exec(string.format("INSERT INTO users (username, balance, bank_balance) VALUES ('%s', 0, 0)", username))
                 local assigned_id = db:last_insert_rowid()
@@ -136,7 +142,13 @@ function start_module.main()
             start_module.bankOption()
 
         elseif choice == "4" then
-            utils.center_print("Thank you for using KEEP BANK!")
+            print("")
+            print("")
+            print("Have a good day! :>")
+            print("")
+            print("")
+            os.execute("sleep 1")
+            utils.clear_screen()
             running = false
         else
             utils.center_print("Choose a correct option.")
@@ -165,7 +177,7 @@ function start_module.bankOption()
         utils.center_print("#                                       #")
         utils.center_print("#                                       #")
         utils.center_print("#     Choose an option to continue..    #")
-        utils.center_print("#           1. Balance Enquiry  SOON    #")
+        utils.center_print("#           1. Balance Enquiry          #")
         utils.center_print("#           2. Mini Statment     ||     #")
         utils.center_print("#           3. Update Operator   ||     #")
         utils.center_print("#           4. Update Profile Status || #")
@@ -182,9 +194,11 @@ function start_module.bankOption()
         utils.clear_screen()
 
         if choice == "1" then
-            utils.center_print("SOON")
+            utils.center_print("Getting the information from database...")
+            os.execute("sleep 1")
+            running = false
+            bank_module.optionOne()
 
-            io.read()
 
         elseif choice == "2" then
             utils.center_print("SOON")
@@ -276,13 +290,23 @@ function start_module.selectAccount()
 
         if num == 9 then
             utils.clear_screen()
-            print("Thanks for using KEEP BANK!")
+            print("")
+            print("")
+            print("Have a good day! :>")
+            print("")
+            print("")
             os.execute("sleep 1")
             utils.clear_screen()
             break
         elseif num and num >= 1 and num <= 8 then
             if accounts[num] then
                 utils.clear_screen()
+
+                -- overwrite tmp file with the selected account's username
+                os.remove("temp_files/data.tmp")
+                local file = io.open("temp_files/data.tmp", "w")
+                file:write(accounts[num].username)
+                file:close()
 
                 start_module.main(accounts[num].id)
                 break
